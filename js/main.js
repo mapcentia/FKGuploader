@@ -136,7 +136,7 @@ $(document).ready(function () {
                                         //geoType = (e.split(".").reverse()[0].toLowerCase() === "shp") ? "PROMOTE_TO_MULTI" : geoType;
                                         flag = true;
                                         $.ajax({
-                                            url: '/controllers/upload/processfkg',
+                                            url: '/extensions/fkguploader/api/process',
                                             data: "&file=" + e + "&name=" + e.split(".")[0] + "&fkgname=" + fkgName + "&encoding=" + encoding,
                                             dataType: 'json',
                                             type: 'GET',
