@@ -136,7 +136,7 @@ $(document).ready(function () {
                                         //geoType = (e.split(".").reverse()[0].toLowerCase() === "shp") ? "PROMOTE_TO_MULTI" : geoType;
                                         flag = true;
                                         $.ajax({
-                                            url: '/extensions/fkguploader/api/process',
+                                            url: '/extensions/fkgupload/api/process',
                                             data: "&file=" + e + "&name=" + e.split(".")[0] + "&fkgname=" + fkgName + "&encoding=" + encoding,
                                             dataType: 'json',
                                             type: 'GET',
@@ -159,7 +159,7 @@ $(document).ready(function () {
                                             },
                                             error: function (response) {
                                                 count = count + 1;
-                                                errors.push(Ext.decode(response.responseText).message);
+                                                errors.push(Ext.decode(response.responseText).message.join("\n\n"));
                                                 iter();
                                                 Ext.getCmp('upload_win').close();
                                             }
