@@ -20,6 +20,18 @@ typeStore = new Ext.data.JsonStore({
         {
             name: 't_5710_born_skole_dis',
             value: 't_5710_born_skole_dis'
+        },
+        {
+            name: 't_5800_fac_pkt',
+            value: 't_5800_fac_pkt'
+        },
+        {
+            name: 't_5801_fac_fl',
+            value: 't_5801_fac_fl'
+        },
+        {
+            name: 't_5802_fac_li',
+            value: 't_5802_fac_li'
         }
     ]
 });
@@ -159,7 +171,7 @@ $(document).ready(function () {
                                             },
                                             error: function (response) {
                                                 count = count + 1;
-                                                errors.push(Ext.decode(response.responseText).message.join("\n\n"));
+                                                errors.push(Ext.decode(response.responseText).message);
                                                 iter();
                                                 Ext.getCmp('upload_win').close();
                                             }
