@@ -22,6 +22,14 @@ typeStore = new Ext.data.JsonStore({
             value: 't_5710_born_skole_dis'
         },
         {
+            name: 't_5713_prog_stat_dis',
+            value: 't_5713_prog_stat_dis'
+        },
+        {
+            name: 't_5711_and_dis',
+            value: 't_5711_and_dis'
+        },
+        {
             name: 't_5800_fac_pkt',
             value: 't_5800_fac_pkt'
         },
