@@ -30,6 +30,10 @@ typeStore = new Ext.data.JsonStore({
             value: 't_5711_and_dis'
         },
         {
+            name: 't_5712_plej_aeldr_dis',
+            value: 't_5712_plej_aeldr_dis'
+        },
+        {
             name: 't_5800_fac_pkt',
             value: 't_5800_fac_pkt'
         },
