@@ -9,7 +9,7 @@
 
 Ext.Ajax.withCredentials = true;
 
-var App = new Ext.App({}), screenName, subUser, schema, cloud, gc2, layer, grid, store, map, viewport,
+var App = new Ext.App({}), screenName, subUser, parentDb, schema, cloud, gc2, layer, grid, store, map, viewport,
     drawControl, gridPanel, modifyControl, tree, layerBeingEditing, saveStrategy, getMetaData, qstore = [],
     tbar, createLayer, offline = false, typeStore,
     session, localStoreKey, host = "", initExtent = null;
@@ -58,7 +58,7 @@ $(document).ready(function () {
             Ext.getCmp("loginBtn").setDisabled(true);
             Ext.getCmp("logoutBtn").setDisabled(false);
             Ext.getCmp("uploadBtn").setDisabled(false);
-            tbar.getComponent(0).setText((offline ? "Offline" : "Online") + " > " + (subUser ? subUser + "@" : "") + screenName + (schema ? " > " + schema : ""));
+            tbar.getComponent(0).setText((offline ? "Offline" : "Online") + " > " + (subUser ? screenName + "@" : "") + parentDb + (schema ? " > " + schema : ""));
         } else {
             Ext.getCmp("loginBtn").setDisabled(false);
             Ext.getCmp("logoutBtn").setDisabled(true);
@@ -69,7 +69,7 @@ $(document).ready(function () {
 
     logOut = function () {
         $.ajax({
-            url: '/api/v1/session/stop',
+            url: '/api/v2/session/stop',
             dataType: 'json',
             success: function (response) {
                 console.log(response);
@@ -85,10 +85,11 @@ $(document).ready(function () {
         offline = false;
         if (Ext.getCmp("loginForm").form.isValid()) {
             Ext.getCmp("loginForm").form.submit({
-                url: '/api/v1/session/start',
+                url: '/api/v2/session/start',
                 success: function (e, a) {
                     screenName = Ext.decode(a.response.responseText).screen_name;
                     subUser = Ext.decode(a.response.responseText).subuser;
+                    parentDb = Ext.decode(a.response.responseText).parentdb;
                     session = true;
                     setState();
                 },
@@ -359,6 +360,7 @@ $(document).ready(function () {
                                 items: [
                                     {
                                         xtype: "form",
+                                        method: "GET",
                                         id: 'loginForm',
                                         border: false,
                                         labelWidth: 90,
@@ -371,7 +373,7 @@ $(document).ready(function () {
                                         items: [
                                             {
                                                 xtype: 'textfield',
-                                                name: 'u',
+                                                name: 'user',
                                                 emptyText: 'Name',
                                                 fieldLabel: 'Bruger',
                                                 allowBlank: false,
@@ -379,14 +381,19 @@ $(document).ready(function () {
                                             }, {
                                                 xtype: 'textfield',
                                                 inputType: 'password',
-                                                name: 'p',
+                                                name: 'password',
                                                 emptyText: 'Password',
                                                 fieldLabel: 'Password'
 
                                             }, {
                                                 xtype: 'hidden',
-                                                name: 's',
+                                                name: 'schema',
                                                 value: "public"
+
+                                            }, {
+                                                xtype: 'hidden',
+                                                name: 'database',
+                                                value: "fkg"
 
                                             }
                                         ],
@@ -441,13 +448,14 @@ $(document).ready(function () {
 
 
     $.ajax({
-        url: '/api/v1/session',
+        url: '/api/v2/session',
         dataType: 'json',
         success: function (response) {
             console.log(response);
             if (response.data.session) {
-                screenName = response.data.db;
+                screenName = response.data.screen_name;
                 subUser = response.data.subuser;
+                parentDb = response.data.parentdb;
                 session = true;
             }
             setState();
